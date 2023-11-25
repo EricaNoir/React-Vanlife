@@ -1,15 +1,6 @@
 import React from "react";
-import { useParams } from "react-router-dom";
-
-/**
- * Challenge (not optional!): build the shared UI portion of the
- * Host Van Detail page. This is
- *
- * Optional portion: also style it to look like the design.
- *
- * For now, get the data from a request to `/api/host/vans/:id`
- * and display the van image, name, price, type
- */
+import { useParams, Outlet, NavLink } from "react-router-dom";
+import { Link } from "react-router-dom";
 
 function HostVanDetail() {
     const params = useParams();
@@ -21,24 +12,68 @@ function HostVanDetail() {
             .then((data) => setVan(data.vans));
     }, [params.id]);
 
+    const activeStyle = {
+        fontWeight: "bold",
+        textDecoration: "underline",
+        color: "#161616",
+    };
+
     return (
-        <div className="host-van-detail-container">
-            {van ? (
-                <div className="host-van-detail">
-                    <img src={van.imageUrl} width={150} />
-                    <i className={`host-van-type ${van.type} selected`}>
-                        {van.type}
-                    </i>
-                    <h2>{van.name}</h2>
-                    <p className="host-van-price">
-                        <span>${van.price}</span>/day
-                    </p>
-                    <p>{van.description}</p>
-                </div>
-            ) : (
-                <h2>Loading...</h2>
-            )}
-        </div>
+        <>
+            <Link to="../vans" className="back-button">
+                &larr; <span>Back to all vans</span>
+            </Link>
+            <div className="host-van-detail-container">
+                {van ? (
+                    <>
+                        <div className="host-van-detail">
+                            <img src={van.imageUrl} width={150} />
+                            <div className="host-van-detail-info-text">
+                                <i className={`van-type van-type-${van.type}`}>
+                                    {van.type}
+                                </i>
+                                <h3>{van.name}</h3>
+                                <h4 className="host-van-price">
+                                    ${van.price}/day
+                                </h4>
+                            </div>
+                        </div>
+                        <div className="host-van-nav">
+                            <NavLink
+                                style={({ isActive }) =>
+                                    isActive ? activeStyle : null
+                                }
+                                to="."
+                                end
+                            >
+                                Details
+                            </NavLink>
+                            <NavLink
+                                style={({ isActive }) =>
+                                    isActive ? activeStyle : null
+                                }
+                                to="pricing"
+                                end
+                            >
+                                Pricing
+                            </NavLink>
+                            <NavLink
+                                style={({ isActive }) =>
+                                    isActive ? activeStyle : null
+                                }
+                                to="photos"
+                                end
+                            >
+                                Photos
+                            </NavLink>
+                        </div>
+                        <Outlet />
+                    </>
+                ) : (
+                    <h2>Loading...</h2>
+                )}
+            </div>
+        </>
     );
 }
 
