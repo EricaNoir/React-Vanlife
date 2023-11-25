@@ -10,6 +10,8 @@ import Income from "./pages/Host/Income";
 import Reviews from "./pages/Host/Reviews";
 import HostLayout from "./components/HostLayout";
 
+import "./App.scss";
+
 import "../server";
 
 function App() {
