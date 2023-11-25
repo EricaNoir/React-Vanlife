@@ -38,7 +38,7 @@ function HostVanDetail() {
                                 </h4>
                             </div>
                         </div>
-                        <div className="host-van-nav">
+                        <nav className="host-van-nav">
                             <NavLink
                                 style={({ isActive }) =>
                                     isActive ? activeStyle : null
@@ -66,8 +66,8 @@ function HostVanDetail() {
                             >
                                 Photos
                             </NavLink>
-                        </div>
-                        <Outlet />
+                        </nav>
+                        <Outlet context={{ van }} />
                     </>
                 ) : (
                     <h2>Loading...</h2>
