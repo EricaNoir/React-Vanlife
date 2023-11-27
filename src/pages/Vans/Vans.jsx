@@ -6,7 +6,8 @@ function Vans() {
     const [vans, setVans] = React.useState([]);
 
     const typeFilter = searchParams.get("type")
-    
+
+    const filteredVans = typeFilter ? vans.filter(van => van.type === typeFilter) : vans
 
     React.useEffect(() => {
         fetch("/api/vans")
@@ -14,7 +15,7 @@ function Vans() {
             .then((data) => setVans(data.vans));
     }, []);
 
-    const vanElements = vans.map((van) => (
+    const vanElements = filteredVans.map((van) => (
         <div key={van.id} className="van-tile">
             <Link to={`/vans/${van.id}`}>
                 <img src={van.imageUrl} alt={`Photo of ${van.name}`} />
