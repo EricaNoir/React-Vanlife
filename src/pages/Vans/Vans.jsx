@@ -2,12 +2,14 @@ import React from "react";
 import { Link, useSearchParams } from "react-router-dom";
 
 function Vans() {
-    const [searchParams, setSearchParams] = useSearchParams()
+    const [searchParams, setSearchParams] = useSearchParams();
     const [vans, setVans] = React.useState([]);
 
-    const typeFilter = searchParams.get("type")
+    const typeFilter = searchParams.get("type");
 
-    const filteredVans = typeFilter ? vans.filter(van => van.type === typeFilter) : vans
+    const filteredVans = typeFilter
+        ? vans.filter((van) => van.type === typeFilter)
+        : vans;
 
     React.useEffect(() => {
         fetch("/api/vans")
