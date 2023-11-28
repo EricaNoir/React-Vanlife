@@ -112,6 +112,13 @@
                 margin-right: 20px;
                 cursor: pointer;
             }
+            .van-list-filter-buttons {
+                display: flex;
+                flex-wrap: wrap;
+                a {
+                    margin-right: 15px;
+                }
+            }
             .van-list {
                 display: grid;
                 grid-template-columns: 1fr 1fr;
