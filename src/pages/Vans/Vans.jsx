@@ -33,14 +33,56 @@ function Vans() {
         </div>
     ));
 
+    function handleFilterChange(key, value) {
+        // setSearchParams((prev) => {
+        //     if (value === null) {
+        //         prev.delete(key);
+        //     } else {
+        //         prev.set(key, value);
+        //     }
+        //     return prev;
+        // });
+        setSearchParams((prev) =>
+            value ? prev.set(key, value) : prev.delete(key)
+        );
+    }
+
     const vanFilterElements = (
         <>
-            <Link to="?type=simple" className="van-type simple">Simple</Link>
-            <Link to="?type=luxury" className="van-type luxury">Luxury</Link>
-            <Link to="?type=rugged" className="van-type rugged">Rugged</Link>
-            <Link to="." className="van-type clear-filters">Clear</Link>
+            <button
+                className={`van-type simple ${
+                    typeFilter === "simple" && "selected"
+                }`}
+                onClick={() => handleFilterChange("type", "simple")}
+            >
+                Simple
+            </button>
+            <button
+                className={`van-type luxury ${
+                    typeFilter === "luxury" && "selected"
+                }`}
+                onClick={() => handleFilterChange("type", "luxury")}
+            >
+                Luxury
+            </button>
+            <button
+                className={`van-type rugged ${
+                    typeFilter === "rugged" && "selected"
+                }`}
+                onClick={() => handleFilterChange("type", "rugged")}
+            >
+                Rugged
+            </button>
+            {typeFilter && (
+                <button
+                    className="van-type clear-filters"
+                    onClick={() => handleFilterChange("type", null)}
+                >
+                    Clear Filter
+                </button>
+            )}
         </>
-    )
+    );
 
     return (
         <div className="van-list-container">
