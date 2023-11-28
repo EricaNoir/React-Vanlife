@@ -1,9 +1,12 @@
 import React from "react";
 import { Link, useSearchParams } from "react-router-dom";
+import { getVans } from "../../../api";
 
 function Vans() {
     const [searchParams, setSearchParams] = useSearchParams();
     const [vans, setVans] = React.useState([]);
+    const [loading, setLoading] = React.useState(false);
+    const [error, setError] = React.useState(null);
 
     const typeFilter = searchParams.get("type");
 
@@ -12,14 +15,30 @@ function Vans() {
         : vans;
 
     React.useEffect(() => {
-        fetch("/api/vans")
-            .then((response) => response.json())
-            .then((data) => setVans(data.vans));
+        async function loadVans() {
+            setLoading(true);
+            try {
+                const data = await getVans();
+                setVans(data);
+            } catch (e) {
+                setError(e);
+            } finally {
+                setLoading(false);
+            }
+        }
+
+        loadVans();
     }, []);
 
     const vanElements = filteredVans.map((van) => (
         <div key={van.id} className="van-tile">
-            <Link to={`/vans/${van.id}`}>
+            <Link
+                to={van.id}
+                state={{
+                    search: `?${searchParams.toString()}`,
+                    type: typeFilter,
+                }}
+            >
                 <img src={van.imageUrl} alt={`Photo of ${van.name}`} />
                 <div className="van-info">
                     <h3>{van.name}</h3>
@@ -34,17 +53,10 @@ function Vans() {
     ));
 
     function handleFilterChange(key, value) {
-        // setSearchParams((prev) => {
-        //     if (value === null) {
-        //         prev.delete(key);
-        //     } else {
-        //         prev.set(key, value);
-        //     }
-        //     return prev;
-        // });
-        setSearchParams((prev) =>
-            value ? prev.set(key, value) : prev.delete(key)
-        );
+        setSearchParams((prev) => {
+            value ? prev.set(key, value) : prev.delete(key);
+            return prev;
+        });
     }
 
     const vanFilterElements = (
@@ -83,6 +95,14 @@ function Vans() {
             )}
         </>
     );
+
+    if (loading) {
+        return <h1>Loading...</h1>;
+    }
+
+    if (error) {
+        return <h1>There was an error: {error.message}</h1>;
+    }
 
     return (
         <div className="van-list-container">
