@@ -7,12 +7,14 @@ import {
 } from "react-router-dom";
 import Layout from "./components/Layout";
 
+import Login from "./pages/Login";
 import Home from "./pages/Home";
 import About from "./pages/About";
 import Vans from "./pages/Vans/Vans";
 import { loader as vansLoader } from "./loaders/vansLoader";
 import VanDetail from "./pages/Vans/VanDetail";
 import NotFound from "./pages/NotFound";
+import Error from "./components/Error";
 
 import HostLayout from "./components/HostLayout";
 import Dashboard from "./pages/Host/Dashboard";
@@ -31,9 +33,9 @@ import "../server";
 function App() {
     const router = createBrowserRouter(
         createRoutesFromElements(
-            <Route element={<Layout />}>
+            <Route element={<Layout />} errorElement={<Error />}>
+                <Route path="login" element={<Login />} />
                 <Route index element={<Home />} />
-
                 <Route path="host" element={<HostLayout />}>
                     <Route index element={<Dashboard />} />
                     <Route path="income" element={<Income />} />
@@ -45,7 +47,6 @@ function App() {
                     </Route>
                     <Route path="reviews" element={<Reviews />} />
                 </Route>
-
                 <Route path="about" element={<About />} />
                 <Route path="vans" element={<Vans />} loader={vansLoader} />
                 <Route path="vans/:id" element={<VanDetail />} />
