@@ -1,11 +1,9 @@
 import React from "react";
-import { Link, useSearchParams } from "react-router-dom";
-import { getVans } from "../../../api";
+import { Link, useSearchParams, useLoaderData } from "react-router-dom";
 
 function Vans() {
     const [searchParams, setSearchParams] = useSearchParams();
-    const [vans, setVans] = React.useState([]);
-    const [loading, setLoading] = React.useState(false);
+    const vans = useLoaderData();
     const [error, setError] = React.useState(null);
 
     const typeFilter = searchParams.get("type");
@@ -13,44 +11,6 @@ function Vans() {
     const filteredVans = typeFilter
         ? vans.filter((van) => van.type === typeFilter)
         : vans;
-
-    React.useEffect(() => {
-        async function loadVans() {
-            setLoading(true);
-            try {
-                const data = await getVans();
-                setVans(data);
-            } catch (e) {
-                setError(e);
-            } finally {
-                setLoading(false);
-            }
-        }
-
-        loadVans();
-    }, []);
-
-    const vanElements = filteredVans.map((van) => (
-        <div key={van.id} className="van-tile">
-            <Link
-                to={van.id}
-                state={{
-                    search: `?${searchParams.toString()}`,
-                    type: typeFilter,
-                }}
-            >
-                <img src={van.imageUrl} alt={`Photo of ${van.name}`} />
-                <div className="van-info">
-                    <h3>{van.name}</h3>
-                    <p>
-                        ${van.price}
-                        <span>/day</span>
-                    </p>
-                </div>
-                <i className={`van-type ${van.type} selected`}>{van.type}</i>
-            </Link>
-        </div>
-    ));
 
     function handleFilterChange(key, value) {
         setSearchParams((prev) => {
@@ -96,9 +56,27 @@ function Vans() {
         </>
     );
 
-    if (loading) {
-        return <h1>Loading...</h1>;
-    }
+    const vanElements = filteredVans.map((van) => (
+        <div key={van.id} className="van-tile">
+            <Link
+                to={van.id}
+                state={{
+                    search: `?${searchParams.toString()}`,
+                    type: typeFilter,
+                }}
+            >
+                <img src={van.imageUrl} alt={`Photo of ${van.name}`} />
+                <div className="van-info">
+                    <h3>{van.name}</h3>
+                    <p>
+                        ${van.price}
+                        <span>/day</span>
+                    </p>
+                </div>
+                <i className={`van-type ${van.type} selected`}>{van.type}</i>
+            </Link>
+        </div>
+    ));
 
     if (error) {
         return <h1>There was an error: {error.message}</h1>;
