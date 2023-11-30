@@ -1,7 +1,8 @@
 import React from "react";
-import { useNavigate } from "react-router-dom";
+import { useLoaderData } from "react-router-dom";
 
 export default function Login() {
+    const message = useLoaderData();
     const [loginFormData, setLoginFormData] = React.useState({
         email: "",
         password: "",
@@ -23,6 +24,7 @@ export default function Login() {
     return (
         <div className="login-container">
             <h1>Sign in to your account</h1>
+            {message && <h2 className="red">{message}</h2>}
             <form onSubmit={handleSubmit} className="login-form">
                 <input
                     name="email"

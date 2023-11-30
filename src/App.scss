@@ -43,6 +43,9 @@
             flex-direction: column;
             align-items: center;
             padding-inline: 27px;
+            .red {
+                color: #cc0000;
+            }
             .login-form {
                 display: flex;
                 flex-direction: column;

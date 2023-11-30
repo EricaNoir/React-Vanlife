@@ -30,6 +30,7 @@ import HostVanPricing from "./pages/Host/HostVanPricing";
 import Reviews from "./pages/Host/Reviews";
 
 import { requireAuth } from "./utils/requireAuth";
+import { loginLoader } from "./loaders/loginLoader";
 
 import "./App.scss";
 
@@ -39,7 +40,7 @@ function App() {
     const router = createBrowserRouter(
         createRoutesFromElements(
             <Route element={<Layout />} errorElement={<Error />}>
-                <Route path="login" element={<Login />} />
+                <Route path="login" element={<Login />} loader={loginLoader} />
                 <Route index element={<Home />} />
                 <Route path="host" element={<HostLayout />}>
                     <Route
