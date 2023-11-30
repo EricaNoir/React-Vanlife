@@ -1,5 +1,8 @@
 import { getHostVans } from "../../api";
 
-export function loader() {
+import { requireAuth } from "../utils/requireAuth";
+
+export async function loader() {
+    await requireAuth();
     return getHostVans();
 }
