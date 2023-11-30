@@ -1,16 +1,8 @@
 import React from "react";
-import { Link } from "react-router-dom";
+import { Link, useLoaderData } from "react-router-dom";
 
 function HostVans() {
-    const [vans, setVans] = React.useState([]);
-
-    React.useEffect(() => {
-        fetch("/api/host/vans")
-            .then((response) => response.json())
-            .then((data) => {
-                setVans(data.vans);
-            });
-    }, []);
+    const vans = useLoaderData();
 
     const hostVanElements = vans.map((van) => (
         <Link to={van.id} className="host-van-link-wrapper">
@@ -31,7 +23,7 @@ function HostVans() {
                 {vans.length > 0 ? (
                     <section>{hostVanElements}</section>
                 ) : (
-                    <h2>Loading...</h2>
+                    <h2>No vans yet</h2>
                 )}
             </div>
         </div>
