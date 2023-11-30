@@ -1,7 +1,9 @@
 import React from "react";
 import { useLoaderData } from "react-router-dom";
+import { loginUser } from "../../api";
 
 export default function Login() {
+    const [status, setStatus] = React.useState("idle");
     const message = useLoaderData();
     const [loginFormData, setLoginFormData] = React.useState({
         email: "",
@@ -10,7 +12,10 @@ export default function Login() {
 
     function handleSubmit(e) {
         e.preventDefault();
-        console.log(loginFormData);
+        loginUser(loginFormData)
+            .then(setStatus("submitting"))
+            .then((data) => console.log(data))
+            .finally(setStatus("submitting"));
     }
 
     function handleChange(e) {
