@@ -19,7 +19,9 @@ import Error from "./components/Error";
 
 import HostLayout from "./components/HostLayout";
 import Dashboard from "./pages/Host/Dashboard";
+import { loader as dashBoardLoader } from "./loaders/dashBoardLoader";
 import Income from "./pages/Host/Income";
+import { loader as incomeLoader } from "./loaders/incomeLoader";
 import HostVans from "./pages/Host/HostVans";
 import { loader as hostVansLoader } from "./loaders/hostVansLoader";
 import HostVanDetail from "./pages/Host/HostVanDetail";
@@ -28,6 +30,7 @@ import HostVanInfo from "./pages/Host/HostVanInfo";
 import HostVanPhotos from "./pages/Host/HostVanPhotos";
 import HostVanPricing from "./pages/Host/HostVanPricing";
 import Reviews from "./pages/Host/Reviews";
+import { loader as reviewsLoader } from "./loaders/reviewsLoader";
 
 import { requireAuth } from "./utils/requireAuth";
 import { loginLoader } from "./loaders/loginLoader";
@@ -53,9 +56,7 @@ function App() {
                     <Route
                         index
                         element={<Dashboard />}
-                        loader={async ({ request }) =>
-                            await requireAuth(request)
-                        }
+                        loader={dashBoardLoader}
                     />
                     <Route
                         path="income"
@@ -98,7 +99,13 @@ function App() {
                             }
                         />
                     </Route>
-                    <Route path="reviews" element={<Reviews />} />
+                    <Route
+                        path="reviews"
+                        loader={async ({ request }) =>
+                            await requireAuth(request)
+                        }
+                        element={<Reviews />}
+                    />
                 </Route>
                 <Route path="about" element={<About />} />
                 <Route
