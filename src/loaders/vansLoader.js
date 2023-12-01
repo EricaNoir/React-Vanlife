@@ -1,5 +1,6 @@
 import { getVans } from "../../api";
+import { defer } from "react-router-dom"
 
 export function loader() {
-    return getVans();
+    return defer({ vans: getVans() });
 }

@@ -1,9 +1,9 @@
 import React from "react";
-import { Outlet, NavLink, useLoaderData } from "react-router-dom";
+import { Outlet, NavLink, useLoaderData, Await } from "react-router-dom";
 import { Link } from "react-router-dom";
 
 function HostVanDetail() {
-    const van = useLoaderData();
+    const dataPromise = useLoaderData();
 
     const activeStyle = {
         fontWeight: "bold",
@@ -11,11 +11,8 @@ function HostVanDetail() {
         color: "#161616",
     };
 
-    return (
-        <>
-            <Link to="../vans" className="back-button">
-                &larr; <span>Back to all vans</span>
-            </Link>
+    function renderHostVanDetailElement(van) {
+        return (
             <div className="host-van-detail-container">
                 <div className="host-van-detail">
                     <img src={van.imageUrl} width={150} />
@@ -58,6 +55,19 @@ function HostVanDetail() {
                 </nav>
                 <Outlet context={{ van }} />
             </div>
+        );
+    }
+
+    return (
+        <>
+            <Link to="../vans" className="back-button">
+                &larr; <span>Back to all vans</span>
+            </Link>
+            <React.Suspense fallback={<h2>Loading van detail</h2>}>
+                <Await resolve={dataPromise.van}>
+                    {renderHostVanDetailElement}
+                </Await>
+            </React.Suspense>
         </>
     );
 }

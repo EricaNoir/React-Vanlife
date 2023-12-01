@@ -71,12 +71,12 @@
                 }
                 button {
                     background-color: #ff8c38;
-                    border: none;
-                    border-radius: 6px;
                     height: 55px;
                     margin-top: 22px;
-                    color: white;
-                    font-family: "Inter", sans-serif;
+                }
+                button:disabled {
+                    background-color: #aaaaaa;
+                    cursor: not-allowed;
                 }
             }
         }

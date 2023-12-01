@@ -1,5 +1,6 @@
 import { getVans } from "../../api";
+import { defer } from "react-router-dom";
 
 export function loader({ params }) {
-    return getVans(params.id);
+    return defer({ van: getVans(params.id) });
 }
