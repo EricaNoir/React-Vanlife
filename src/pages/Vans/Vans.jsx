@@ -4,7 +4,6 @@ import { Link, useSearchParams, useLoaderData, Await } from "react-router-dom";
 function Vans() {
     const [searchParams, setSearchParams] = useSearchParams();
     const dataPromise = useLoaderData();
-    console.log(dataPromise.vans);
 
     const typeFilter = searchParams.get("type");
 
